@@ -4,6 +4,7 @@
 \usepackage[latin1]{inputenc}
 \usepackage{algorithm}
 \usepackage[noend]{algorithmic}
+\usecolortheme{rose}
 
 \title{\huge Federated Learning with TensorFlow~Federated}
 \author{Andrea~Hofer, Ignatz~\"Otzlinger, Sabine~Hasenleitner, Kim~Schmider}
@@ -152,18 +153,17 @@
             \item Time zone differences
         \end{itemize}
     \end{frame}
-    \begin{frame} {Data labelling}
+    \begin{frame} {Example Uses of Federated Learning}
         \begin{itemize}[<+->]
-            \item With traditional machine learning techniques labels have to be provided manually
-            \item When learning based on user interactions labels are directly available:
-            \begin{description}
-                \item[Input Prediction] Data is self-labelled
-                \item[Photo Selection] Natural app interactions
-                \item[Speech recognition] Retry or manual input by user when failing
-            \end{description}
+            \item Medicine
+            \item Touch keyboard input prediction
+            \item Automatic photo selection
+            \item Speech recognition
+            \vspace{2em}
+            \item With learning based on user interactions labels are directly available
         \end{itemize}
     \end{frame}
-    \begin{frame} {Resources}
+    \begin{frame} {Resource Utilization}
         \begin{itemize}[<+->]
             \item Data center: Computational costs dominate
             \item Federated Learning: Communication costs dominate
@@ -177,5 +177,8 @@
     \end{frame}
     \begin{frame} {\texttt{FederatedAveraging} Algorithm}
         \center\includegraphics[height=.6\textheight]{img/fedavg.pdf}
+    \end{frame}
+    \begin{frame}[plain]
+        \center{\Huge{Ende}}
     \end{frame}
 \end{document}
