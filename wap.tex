@@ -6,8 +6,8 @@
 \usepackage[noend]{algorithmic}
 \usecolortheme{rose}
 
-\title{\huge Federated Learning with TensorFlow~Federated}
-\author{Andrea~Hofer, Ignatz~\"Otzlinger, Sabine~Hasenleitner, Kim~Schmider}
+\title{\huge TensorFlow: Federated~Learning for Image~Classification}
+\author{Andrea~Hofer, Ignatz~\"Otzlinger, Sabine~Hasenleithner, Kim~Schmider}
 \date{}
 \begin{document}
     \begin{frame}[plain]
@@ -18,9 +18,9 @@
         \begin{itemize}
             \item Introduction to Machine Learning and Deep Learning
             \item Image Recognition
-            \item Why Federated Learning?
             \item CIFAR-10 dataset
-            \item Keras
+            \item Practical example
+            \item Why Federated Learning?
             \item \texttt{FederatedAveraging} Algorithm
         \end{itemize}
     \end{frame}
@@ -44,11 +44,7 @@
     \begin{frame} {Deep Learning}
         \center\includegraphics[width=\textwidth]{img/6.png}
     \end{frame}
-    \begin{frame} {Text Algorithm is Divided Into Grids of 13x13}
-        \center\includegraphics[width=\textwidth]{img/5.png}
-    \end{frame}
-% Andi    
-    \begin{frame} {Image Recognition}
+        \begin{frame} {Image Recognition}
         \begin{itemize}[<+->]
            \item Classification
            \item Object recognition
@@ -64,6 +60,9 @@
     \begin{frame}[plain]
         \includegraphics[width=\textwidth]{img/chaos.png}
     \end{frame}
+    \begin{frame} {YOLO Algorithm}
+        \center\includegraphics[width=\textwidth]{img/5.png}
+    \end{frame}
     \begin{frame} {Data Processing with GDPR}
         \begin{itemize}[<+->]
            \item Big data needed, problem with GDPR
@@ -71,85 +70,95 @@
            \item Solution $\rightarrow$ Federated Learning
         \end{itemize}        
     \end{frame}
-    \begin{frame} {Federated Learning}
+% Sabine
+    \begin{frame} {CIFAR-10}
+        \begin{itemize}
+            \item<+-> CIFAR-10 dataset (Canadian Institute For Advanced Research)
+            \item<+-> Collection of images
+            \item<+-> Contains 60.000 images
+            \item<+-> 10 different classes: 
+                \begin{enumerate}
+                    \item airplanes,
+                    \item cars,
+                    \item birds,
+                    \item cats,
+                    \item deer,
+                    \item dogs,
+                    \item frogs,
+                    \item horses,
+                    \item ships,
+                    \item trucks.
+                \end{enumerate}
+            \item<+-> 6.000 images per class
+            \item<+-> Size 32 x 32
+        \end{itemize}
+    \end{frame}
+\begin{frame} {Image Classification}
+How does the image classification work?
+\url{https://www.tensorflow.org/tutorials/images/cnn}
+
+This tutorial demonstrates training a simple Convolutional Neural Network (CNN) to classify CIFAR images. (TensorFlow)
+\end{frame}
+
+\begin{frame} {SGD -- Stochastic gradient descent}
+    \begin {itemize}[<+->]
+        \item Iterative method for optimizing an objective function
+        \item Replaces the actual gradient (calculated from the entire data set) by an estimate thereof (calculated from a randomly selected subset of the data)
+        \item True gradient of $Q(w)$ is approximated by a gradient at a single example
+        \item $w:=w - \eta \nabla Q_{i}(w)$
+        \item Algorithm sweeps through the training set and performs the above update for each training example. Several passes can be made over the training set until the algorithm converges. If this is done, the data can be shuffled for each pass to prevent cycles
+\end{itemize}
+\end{frame}
+\begin{frame} {SGD -- Possible pseudocode}
+    \begin{center}
+        \begin{minipage}[t]{.8\textwidth}
+            \action<+->{choose an initial vector of parameters $w$ and learning rate $\eta$}\par
+            \action<+->{\textbf{repeat} until an approximate minimum is obtained \textbf{do}}\par
+            \action<+->{\hskip 2em randomly shuffle examples in the training set}\par
+            \action<+->{\hskip 2em \textbf{for} $i = 1, 2, ..., n$ \textbf {do}}\par
+            \action<+->{\hskip 4em $w:=w - \eta \nabla Q_{i}(w)$}
+        \end{minipage}
+        \end{center}
+        
+        \action<+->{source: Bottou, L\'eon (1998). "Online Algorithms and Stochastic Approximations". Online Learning and Neural Networks. Cambridge University Press. ISBN 978-0-521-65263-6.}
+\end{frame}
+
+\begin{frame} {Federated Learning}
         \begin{itemize}[<+->]
            \item Calculations on end device
            \item Results of calculations will be sent to global model
            \item Data privacy
         \end{itemize}        
-       \includegraphics[width=\textwidth]{img/federated-learning.png}%
+       \action<+->{\includegraphics[width=\textwidth]{img/federated-learning.png}}
     \end{frame}
-% Sabine
-    \begin{frame} {CIFAR-10}
-    \begin{itemize}
-        \item<+-> CIFAR-10 dataset (Canadian Institute For Advanced Research)
-        \item<+-> Collection of images
-        \item<+-> Contains 60.000 images
-        \item<+-> 10 different classes: 
-            \begin{enumerate}
-                \item airplanes,
-                \item cars,
-                \item birds,
-                \item cats,
-                \item deer,
-                \item dogs,
-                \item frogs,
-                \item horses,
-                \item ships,
-                \item trucks.
-            \end{enumerate}
-        \item<+-> 6.000 images per class
-        \item<+-> Size 32 x 32
-    \end{itemize}
-\end{frame}
 
-\begin{frame} {Image Classification}
-    \begin{itemize}
-        \item How does the image classification work?
-        \item \url{https://www.tensorflow.org/tutorials/images/cnn}\\
-            This tutorial demonstrates training a simple Convolutional Neural Network (CNN) to classify CIFAR images. (TensorFlow)
-    \end{itemize}
-\end{frame}
-
-\begin{frame} {KERAS}
+\begin{frame} {Federated Learning for image classification}
     \begin {itemize}[<+->]
-        \item Definition as per KERAS Homepage:
-            High-level neural networks API, written in Python and capable to running on top of TensorFlow, CNTK, or Theano. It was developed with a focus on enabling fast experimentation. Being able to go from idea to result with the least possible delay is key to doing good research.
-            Use Keras if you need a deep learning library that:
-        \item Allows for easy and fast prototyping (through user friendliness, modularity, and extensibility)
-        \item Supports both convolutional networks and recurrent networks, as well as combinations of the two
-        \item Runs seamlessly on CPU and GPU
-        \item \url{http://keras.io/}
+        \item Can be simulated at TensorFlow:
+        \url{https://www.tensorflow.org/federated/tutorials/federated_learning_for_image_classification}
+        \item this simulation example uses the NIST (National Institute of Standards and Technology) dataset
     \end{itemize}
-    \end{frame}
+\end{frame}
 
-    \begin{frame} {RELU}
-    \begin{itemize}
-        \item $f(x)=max(0, x)$
-    Image from english wikipedia \url{https://en.wikipedia.org/wiki/File:Rectifier_and_softplus_functions.svg}. The file is an original work from user \url{https://en.wikipedia.org/wiki/User:Mcld} (Dan Stowell)
+\begin{frame} {NIST Handprinted Forms and Characters Database}
+    \begin{itemize}[<+->]
+        \item 3600 writers
+        \item 810,000 character images
     \end{itemize}
-     
-    \end{frame}
+    \action<+->{\center\includegraphics[width=\textwidth]{img/NIST.jpg}}
+\end{frame}
 
-    \begin{frame} {CIFAR-10}
-    \end{frame}
-
-    \begin{frame} {CIFAR-10}
-    \end{frame}
-
-    \begin{frame} {CIFAR-10}
-    \end{frame}
-
-    \begin{frame} {CIFAR-10}
-    \end{frame}
-%Kim
+\begin{frame} {Short overview Simulation results}
+    \action<+->{Run a few rounds with a subset of the simulation data as not all users are always online}
+    \action<+->{\begin{center}\includegraphics[width=\textwidth]{img/fedresult.jpg}\end{center}}\par
+    \action<+->{Training loss is decreasing after each round of federated training, indicating the model is converging}\par
+    \action<+->{The average metrics over all batches of data trained across all clients in the round}
+\end{frame}
     \begin{frame} {Example Uses of Federated Learning}
         \begin{itemize}[<+->]
             \item Medicine
             \item Touch keyboard input prediction
-            \item Automatic photo selection
-            \item Speech recognition
-            \vspace{2em}
+            \vspace{1.5em}
             \item With learning based on user interactions labels are directly available
         \end{itemize}
     \end{frame}
@@ -177,7 +186,7 @@
     \end{frame}
     \begin{frame} {\texttt{FederatedAveraging} Algorithm}
         \begin{center}
-                \begin{minipage}[t]{.8\textwidth}
+                \begin{minipage}[t]{.8\textwidth}\small{
                 \action<+->{\emph{Server}\par
                 \textbf{Main}() \textbf{do}\par
                 \hskip 2em initialize $w_0$\par
@@ -185,18 +194,19 @@
                     \hskip 4em $S_t \leftarrow$ random fraction of clients\par
                     \hskip 4em \textbf{for each} client $k \in S_t$ \textbf{in parallel do}\par
                         \hskip 6em $(w_{t+1}^k, n^k) \leftarrow$ ClientUpdate($k, w_t$)\par}
-                    \action<3->{\hskip 4em $n \leftarrow n^1 + n^2 + ... + n^k$\par
+                    \action<3->{\hskip 4em $n \leftarrow n_1 + n_2 + ... + n_k$\par
                     \hskip 4em $w_{t+1} \leftarrow \sum_{k=1}^K \frac{n_k}{n} w_{t+1}^k$}
 
                         \action<+->{\vskip 1em \emph{Client $k$}\par
                         \textbf{ClientUpdate}($k$, $w$) \textbf{do}\par
-                    \hskip 2em \textbf{for each} local computation from 1 to $n^k$ \textbf{do}\par
-                        \hskip 4em optimize $w$ with local dataset\par
+                    \hskip 2em \textbf{for each} epoch from 1 to $n_k$ \textbf{do}\par
+                        \hskip 4em $w \leftarrow w - \eta \nabla Q_{i}(w)$\par
                     \hskip 2em \textbf{return} $(w, n^k)$ to server}
-                \end{minipage}
+                }\end{minipage}
         \end{center}
+        \action<4->{\small{source: H. Brendan McMahan, et. al. (2016). "Communication-Efficient Learning of Deep Networks from Decentralized Data". arXiv.org.}}
     \end{frame}
     \begin{frame}[plain]
-        \center{\Huge{Ende}}
+        \center{\Huge{The End}}
     \end{frame}
 \end{document}
